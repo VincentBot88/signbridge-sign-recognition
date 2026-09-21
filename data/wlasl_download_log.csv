@@ -1,0 +1,317 @@
+video_id,instance_id,label,status,detail
+68236,2,HELLO,FAILED,yt-dlp failed: ERROR: [youtube] 3qKcPONtNXQ: This video is unavailable
+67755,6,HELLO,FAILED,yt-dlp failed: ERROR: [youtube] oRsVMK7sxMQ: Private video
+27181,7,HELLO,ok,52 frames
+27182,8,HELLO,FAILED,yt-dlp failed: ERROR: [youtube] WbkSmhKTltU: This video is unavailable
+27183,9,HELLO,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+27184,10,HELLO,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+27175,13,HELLO,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/h/hello.mp4
+27177,14,HELLO,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/6/6353.mp4
+08511,1,BYE,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/b/bye-wave.mp4
+08512,2,BYE,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/22/22741.mp4
+08514,4,BYE,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/22/22865.mp4
+08515,5,BYE,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/22/22866.mp4
+08516,6,BYE,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+08517,7,BYE,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+25052,3,BYE,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/22/22866.mp4
+25053,4,BYE,FAILED,yt-dlp failed: ERROR: [youtube] FdZx-kM6jhM: This video is unavailable
+25054,5,BYE,FAILED,yt-dlp failed: ERROR: [youtube] wUIvZdlxMx0: This video is unavailable
+25055,6,BYE,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+25047,8,BYE,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/g/good-bye.mp4
+25048,9,BYE,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/g/goodbye.mp4
+25049,10,BYE,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/22/22741.mp4
+25051,12,BYE,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/22/22865.mp4
+68796,2,THANKYOU,FAILED,yt-dlp failed: ERROR: [youtube] pj0YH_l8TNM: This video is unavailable
+57663,6,THANKYOU,ok,89 frames
+57664,7,THANKYOU,FAILED,yt-dlp failed: ERROR: [youtube] lJXvGI7r_Fc: This video is unavailable
+66598,8,THANKYOU,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/TH/THANK-YOU-1198.mp4 (Caused by SSLError(SSLCertVerificat"
+57665,10,THANKYOU,FAILED,yt-dlp failed: ERROR: [youtube] sH87G_Bz_nA: This video is unavailable
+57666,11,THANKYOU,FAILED,yt-dlp failed: ERROR: [youtube] t8Hr0IHghrQ: This video is unavailable
+57667,12,THANKYOU,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+57658,15,THANKYOU,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/t/thank.mp4
+57659,16,THANKYOU,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/14/14353.mp4
+68670,3,PLEASE,FAILED,yt-dlp failed: ERROR: [youtube] LTVv46_N764: This video is unavailable
+43225,4,PLEASE,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+43226,5,PLEASE,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+67083,7,PLEASE,FAILED,yt-dlp failed: ERROR: [youtube] RHeFBNVYii4: Private video
+43221,11,PLEASE,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/p/please.mp4
+43222,12,PLEASE,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/6/6966.mp4
+43223,13,PLEASE,FAILED,yt-dlp failed: ERROR: [youtube] QyqHzUY36cw: This video is unavailable
+43224,14,PLEASE,ok,71 frames
+53371,2,SORRY,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/6/6968.mp4
+53372,3,SORRY,ok,66 frames
+53373,4,SORRY,ok,66 frames
+53374,5,SORRY,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+66536,6,SORRY,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/SO/SORRY-566.mp4 (Caused by SSLError(SSLCertVerificationEr"
+67228,8,SORRY,FAILED,yt-dlp failed: ERROR: [youtube] BL90-ejIQ9Y: Private video
+53375,9,SORRY,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+53366,10,SORRY,ok,109 frames
+53368,12,SORRY,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/s/sorry.mp4
+53370,14,SORRY,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/6/6967.mp4
+68192,3,YES,ok,85 frames
+64290,4,YES,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/y/yes.mp4
+64291,6,YES,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23544.mp4
+64292,8,YES,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23545.mp4
+64293,9,YES,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23546.mp4
+64294,10,YES,ok,59 frames
+64295,11,YES,ok,59 frames
+64296,12,YES,ok,119 frames
+66820,13,YES,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/YE/YES-1472.mp4 (Caused by SSLError(SSLCertVerificationErr"
+64298,16,YES,FAILED,yt-dlp failed: ERROR: [youtube] wc2A8AZepy4: This video is unavailable
+64299,17,YES,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+64300,18,YES,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+64289,22,YES,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/y/yes-fs.mp4
+68110,2,NO,ok,111 frames
+68406,3,NO,FAILED,yt-dlp failed: ERROR: [youtube] Dd95RFhtSs4: This video is unavailable
+38539,4,NO,ok,104 frames
+38540,5,NO,ok,93 frames
+38541,6,NO,ok,85 frames
+38542,7,NO,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+38544,10,NO,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+38531,17,NO,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/n/no.mp4
+38532,18,NO,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23547.mp4
+38533,19,NO,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23949.mp4
+66183,20,NO,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/NO/NO-512.mp4 (Caused by SSLError(SSLCertVerificationError"
+67934,22,NO,FAILED,yt-dlp failed: ERROR: [youtube] jGsh6zd3eUQ: Private video
+38534,23,NO,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/6/6400.mp4
+38536,25,NO,FAILED,yt-dlp failed: ERROR: [youtube] lgNwgl10VSg: This video is unavailable
+38538,27,NO,ok,75 frames
+27219,2,HELP,FAILED,yt-dlp failed: ERROR: [youtube] RStYX5OXPjE: This video is unavailable
+27220,3,HELP,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+27221,4,HELP,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+27210,9,HELP,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/h/help2.mp4
+27211,10,HELP,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/h/help-me.mp4
+27212,11,HELP,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/h/help.mp4
+65890,12,HELP,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/HE/HELP-2562.mp4 (Caused by SSLError(SSLCertVerificationEr"
+27213,13,HELP,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23431.mp4
+27214,14,HELP,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/5/5871.mp4
+65891,15,HELP,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/HE/HELP-2563.mp4 (Caused by SSLError(SSLCertVerificationEr"
+65889,16,HELP,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/HE/HELP-483.mp4 (Caused by SSLError(SSLCertVerificationErr"
+67757,18,HELP,FAILED,yt-dlp failed: ERROR: [youtube] OWXmFhatan8: Private video
+27215,19,HELP,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/6/6389.mp4
+27216,20,HELP,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/9/9918.mp4
+27217,21,HELP,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/9/9936.mp4
+27218,22,HELP,FAILED,yt-dlp failed: ERROR: [youtube] l31UXgChCS4: This video is unavailable
+67249,3,STOP,FAILED,yt-dlp failed: ERROR: [youtube] bBtf2nxKnys: Private video
+54926,5,STOP,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/s/stop.mp4
+54928,7,STOP,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/7/7258.mp4
+54929,8,STOP,ok,84 frames
+54930,9,STOP,FAILED,yt-dlp failed: ERROR: [youtube] l6G0rN4CJRg: This video is unavailable
+54931,10,STOP,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+54932,11,STOP,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+62113,1,WAIT,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+62104,8,WAIT,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/w/wait-long.mp4
+62105,9,WAIT,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/w/wait.mp4
+62106,10,WAIT,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/7/7259.mp4
+66740,11,WAIT,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/WA/WAIT-1405.mp4 (Caused by SSLError(SSLCertVerificationEr"
+67034,13,WAIT,FAILED,yt-dlp failed: ERROR: [youtube] QlMV4KuPClU: Private video
+62107,14,WAIT,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/9/9671.mp4
+62110,17,WAIT,FAILED,yt-dlp failed: ERROR: [youtube] mhJvv6lTQ90: This video is unavailable
+62111,18,WAIT,ok,67 frames
+62112,19,WAIT,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+36832,4,MORE,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/m/more.mp4
+36834,5,MORE,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/5/5684.mp4
+67906,7,MORE,FAILED,yt-dlp failed: ERROR: [youtube] eKLTlUZlE9w: Private video
+36836,8,MORE,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/8/8051.mp4
+36838,10,MORE,ok,110 frames
+36839,11,MORE,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+36840,12,MORE,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+68179,1,WATER,ok,67 frames
+68722,3,WATER,FAILED,yt-dlp failed: ERROR: [youtube] n1LXJrNY5Cs: This video is unavailable
+62504,4,WATER,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/w/water.mp4
+62505,5,WATER,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/22/22969.mp4
+62506,6,WATER,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/22/22970.mp4
+62508,8,WATER,ok,80 frames
+66752,9,WATER,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/WA/WATER-1414.mp4 (Caused by SSLError(SSLCertVerificationE"
+67044,11,WATER,FAILED,yt-dlp failed: ERROR: [youtube] BWUyTapkOvM: Private video
+62509,12,WATER,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+62510,13,WATER,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+05301,3,BATHROOM,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/b/bathroom2.mp4
+05302,4,BATHROOM,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/b/bathroom.mp4
+05303,5,BATHROOM,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23911.mp4
+05304,6,BATHROOM,ok,75 frames
+05305,7,BATHROOM,ok,100 frames
+65148,8,BATHROOM,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/BA/BATHROOM-32.mp4 (Caused by SSLError(SSLCertVerification"
+67394,9,BATHROOM,FAILED,yt-dlp failed: ERROR: [youtube] cI3AyC9DfWQ: Private video
+05308,12,BATHROOM,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+05309,13,BATHROOM,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+05310,14,BATHROOM,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+58738,1,BATHROOM,FAILED,yt-dlp failed: ERROR: [youtube] C6C0n0yL0lE: This video is unavailable
+58739,2,BATHROOM,FAILED,yt-dlp failed: ERROR: [youtube] M3sXN-k8axs: This video is unavailable
+58740,3,BATHROOM,ok,62 frames
+67313,4,BATHROOM,FAILED,yt-dlp failed: ERROR: [youtube] LNt9e8b4Uwg: Private video
+58741,5,BATHROOM,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+58742,6,BATHROOM,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+58735,10,BATHROOM,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/t/toilet.mp4
+58736,11,BATHROOM,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23911.mp4
+58737,12,BATHROOM,ok,69 frames
+47723,2,BATHROOM,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/r/restroom-toilet.mp4
+47724,3,BATHROOM,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23911.mp4
+47725,4,BATHROOM,ok,66 frames
+47726,5,BATHROOM,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+47727,6,BATHROOM,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+68520,2,EAT,FAILED,yt-dlp failed: ERROR: [youtube] HAqSIA2GG3g: This video is unavailable
+68044,3,EAT,ok,76 frames
+69086,4,EAT,FAILED,yt-dlp failed: ERROR: [youtube] zOzgRJ3bAdI: This video is unavailable
+18326,5,EAT,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/e/eat-iclpop.mp4
+18328,7,EAT,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/e/eat.mp4
+18329,8,EAT,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/14/14883.mp4
+18332,11,EAT,ok,69 frames
+65601,12,EAT,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/EA/EAT-399.mp4 (Caused by SSLError(SSLCertVerificationErro"
+67610,14,EAT,FAILED,yt-dlp failed: ERROR: [youtube] FSxHpeiCuBc: Private video
+67611,15,EAT,FAILED,yt-dlp failed: ERROR: [youtube] QkTP_AyKk_k: Private video
+18333,16,EAT,FAILED,yt-dlp failed: ERROR: [youtube] rbnYbQyFvK4: This video is unavailable
+18334,17,EAT,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+18335,18,EAT,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+65539,1,DRINK,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/DR/DRINK-119.mp4 (Caused by SSLError(SSLCertVerificationEr"
+68538,3,DRINK,FAILED,yt-dlp failed: ERROR: [youtube] HZMTQJdBZ9g: This video is unavailable
+68042,4,DRINK,ok,87 frames
+68660,5,DRINK,FAILED,yt-dlp failed: ERROR: [youtube] Lk2Vws8homw: This video is unavailable
+68041,6,DRINK,ok,87 frames
+17725,7,DRINK,ok,69 frames
+17726,8,DRINK,FAILED,yt-dlp failed: ERROR: [youtube] 6gU3Ln98sWA: This video is unavailable
+17727,9,DRINK,FAILED,yt-dlp failed: ERROR: [youtube] Ddd2ZZNFhVI: This video is unavailable
+17728,10,DRINK,ok,66 frames
+17729,12,DRINK,ok,71 frames
+17730,13,DRINK,ok,81 frames
+17731,14,DRINK,ok,71 frames
+17732,15,DRINK,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+17733,16,DRINK,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+65540,17,DRINK,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/DR/DRINK-120.mp4 (Caused by SSLError(SSLCertVerificationEr"
+17734,18,DRINK,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+17714,22,DRINK,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/d/drink2.mp4
+17715,23,DRINK,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/d/drink-alcohol.mp4
+17716,24,DRINK,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/d/drink-british.mp4
+17717,25,DRINK,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/d/drink.mp4
+17718,26,DRINK,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/d/drink-mug.mp4
+67594,28,DRINK,FAILED,yt-dlp failed: ERROR: [youtube] yawcLQIhQiE: Private video
+17719,29,DRINK,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/d/drink-plu.mp4
+17720,30,DRINK,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/14/14885.mp4
+17721,31,DRINK,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23388.mp4
+17722,32,DRINK,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23388.mp4
+17723,33,DRINK,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23389.mp4
+17724,34,DRINK,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/7/7796.mp4
+28383,1,HUNGRY,FAILED,yt-dlp failed: ERROR: [youtube] a90eIyt5eJs: This video is unavailable
+28384,2,HUNGRY,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+67779,3,HUNGRY,FAILED,yt-dlp failed: ERROR: [youtube] H-hjnF_GtuU: Private video
+28385,4,HUNGRY,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+28380,9,HUNGRY,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/h/hungry.mp4
+28381,10,HUNGRY,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/7/7294.mp4
+28382,11,HUNGRY,ok,65 frames
+28443,4,HURT,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/h/hurt2.mp4
+28444,5,HURT,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/h/hurt.mp4
+28445,6,HURT,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23773.mp4
+28446,7,HURT,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23774.mp4
+28450,11,HURT,FAILED,yt-dlp failed: ERROR: [youtube] Ekcn4CILyfo: This video is unavailable
+28452,13,HURT,ok,77 frames
+28453,14,HURT,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+28454,15,HURT,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+40810,1,PAIN,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+67956,3,PAIN,FAILED,yt-dlp failed: ERROR: [youtube] PUeBxtWPPFw: Private video
+40804,5,PAIN,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/p/pain.mp4
+40806,7,PAIN,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23773.mp4
+40807,8,PAIN,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23774.mp4
+40808,9,PAIN,ok,88 frames
+40809,10,PAIN,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+68152,2,SICK,ok,75 frames
+68776,3,SICK,FAILED,yt-dlp failed: ERROR: [youtube] OvCEWXAQXaY: This video is unavailable
+51516,4,SICK,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+51517,5,SICK,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+51505,9,SICK,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/s/sick2.mp4
+51506,10,SICK,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/s/sick.mp4
+51507,11,SICK,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/14/14644.mp4
+66475,16,SICK,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/SI/SICK-255.mp4 (Caused by SSLError(SSLCertVerificationErr"
+67201,18,SICK,FAILED,yt-dlp failed: ERROR: [youtube] BuJZZAGk6GM: Private video
+51514,22,SICK,ok,80 frames
+51515,23,SICK,ok,78 frames
+68480,2,NAME,FAILED,yt-dlp failed: ERROR: [youtube] GDAvnSKfZoU: This video is unavailable
+37588,5,NAME,ok,79 frames
+37589,6,NAME,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+67922,8,NAME,FAILED,yt-dlp failed: ERROR: [youtube] yFYsa9KPUXc: Private video
+37590,9,NAME,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+37583,12,NAME,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/n/name.mp4
+37584,13,NAME,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/n/name-verb.mp4
+37585,14,NAME,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/7/7751.mp4
+37586,15,NAME,ok,135 frames
+68998,2,WHERE,FAILED,yt-dlp failed: ERROR: [youtube] WlHOl9zIUpE: This video is unavailable
+63087,3,WHERE,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/14/14587.mp4
+63089,5,WHERE,ok,138 frames
+63090,6,WHERE,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+66774,7,WHERE,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/WH/WHERE-1427.mp4 (Caused by SSLError(SSLCertVerificationE"
+67061,9,WHERE,FAILED,yt-dlp failed: ERROR: [youtube] Mrb2M9RV_KM: Private video
+63091,10,WHERE,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+63085,14,WHERE,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/w/where2.mp4
+68330,3,WHAT,FAILED,yt-dlp failed: ERROR: [youtube] AK26EQRsH7k: This video is unavailable
+62982,8,WHAT,FAILED,yt-dlp failed: ERROR: [youtube] M1gXuGSWqVI: This video is unavailable
+62984,12,WHAT,ok,60 frames
+62971,13,WHAT,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/w/what2.mp4
+66769,14,WHAT,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/WH/WHAT-1425.mp4 (Caused by SSLError(SSLCertVerificationEr"
+67057,15,WHAT,FAILED,yt-dlp failed: ERROR: [youtube] sbODkAcZ5Mw: Private video
+62986,18,WHAT,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+62973,19,WHAT,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/w/what.mp4
+62987,20,WHAT,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+67058,22,WHAT,FAILED,yt-dlp failed: ERROR: [youtube] XO9Lq5Gyuaw: Private video
+62988,24,WHAT,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+62975,25,WHAT,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23463.mp4
+62979,28,WHAT,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/5/5985.mp4
+68890,2,WHO,FAILED,yt-dlp failed: ERROR: [youtube] SQUHKsHMUiw: This video is unavailable
+63239,4,WHO,ok,99 frames
+63240,5,WHO,ok,71 frames
+63241,6,WHO,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+63242,7,WHO,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+66778,14,WHO,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/WH/WHO-1430.mp4 (Caused by SSLError(SSLCertVerificationErr"
+63233,16,WHO,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/w/who.mp4
+63234,17,WHO,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/w/who-old.mp4
+66779,18,WHO,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/WH/WHO-2236.mp4 (Caused by SSLError(SSLCertVerificationErr"
+66780,19,WHO,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/WH/WHO-2283.mp4 (Caused by SSLError(SSLCertVerificationError(1"
+67066,21,WHO,FAILED,yt-dlp failed: ERROR: [youtube] gDkZ2Zn3Sjg: Private video
+63236,23,WHO,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/9/9019.mp4
+63237,24,WHO,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/9/9020.mp4
+63238,25,WHO,FAILED,yt-dlp failed: ERROR: [youtube] dnDu1DxXWo4: This video is unavailable
+68954,3,HOW,FAILED,yt-dlp failed: ERROR: [youtube] uVXtydfzLIo: This video is unavailable
+28206,5,HOW,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/h/how-1913.mp4
+28207,6,HOW,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/h/how2.mp4
+28208,7,HOW,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/h/how.mp4
+28210,9,HOW,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/5/5874.mp4
+67776,11,HOW,FAILED,yt-dlp failed: ERROR: [youtube] X9k65VXITzY: Private video
+28211,12,HOW,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/5/5875.mp4
+28212,13,HOW,ok,75 frames
+28213,14,HOW,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+28214,15,HOW,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+63286,6,WHY,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/w/why.mp4
+63287,7,WHY,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/6/6973.mp4
+63288,8,WHY,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/8/8837.mp4
+66781,9,WHY,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/WH/WHY-1431.mp4 (Caused by SSLError(SSLCertVerificationErr"
+67067,10,WHY,FAILED,yt-dlp failed: ERROR: [youtube] Bp4hwb11MXo: Private video
+63289,11,WHY,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/8/8838.mp4
+63290,12,WHY,FAILED,yt-dlp failed: ERROR: [youtube] -iJt0VZWBcA: This video is unavailable
+63291,13,WHY,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+63292,14,WHY,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+60553,1,UNDERSTAND,ok,80 frames
+60551,3,UNDERSTAND,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23293.mp4
+66704,4,UNDERSTAND,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/UN/UNDERSTAND-311.mp4 (Caused by SSLError(SSLCertVerificat"
+67018,5,UNDERSTAND,FAILED,yt-dlp failed: ERROR: [youtube] -5J6ZDndBxw: Private video
+60554,8,UNDERSTAND,ok,104 frames
+60555,10,UNDERSTAND,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+60556,12,UNDERSTAND,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+60550,14,UNDERSTAND,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/u/understand.mp4
+68586,2,DEAF,FAILED,yt-dlp failed: ERROR: [youtube] J9hiREjgVe0: This video is unavailable
+68033,3,DEAF,ok,85 frames
+14899,4,DEAF,ok,74 frames
+14900,5,DEAF,FAILED,yt-dlp failed: ERROR: [youtube] YsLUNOu9jXU: This video is unavailable
+14901,7,DEAF,FAILED,unsupported format .swf (Flash/swf - not decodable here)
+14903,9,DEAF,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)
+65445,14,DEAF,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/DE/DEAF-103.mp4 (Caused by SSLError(SSLCertVerificationErr"
+14889,17,DEAF,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/d/deaf2.mp4
+14891,20,DEAF,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/d/deaf.mp4
+14893,21,DEAF,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23016.mp4
+14894,22,DEAF,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/23/23017.mp4
+14895,23,DEAF,FAILED,yt-dlp failed: ERROR: [youtube] 5Dr7V1fbTFU: This video is unavailable
+14896,24,DEAF,ok,120 frames
+14898,26,DEAF,ok,91 frames
+65954,1,INTERPRETER,FAILED,"HTTPSConnectionPool(host='aslsignbank.haskins.yale.edu', port=443): Max retries exceeded with url: /dictionary/protected_media/glossvideo/ASL/IN/INTERPRETER-1722.mp4 (Caused by SSLError(SSLCertVerific"
+67795,2,INTERPRETER,FAILED,yt-dlp failed: ERROR: [youtube] tksEwBhbBm4: Private video
+30259,5,INTERPRETER,FAILED,404 Client Error: Not Found for url: https://www.handspeak.com/word/i/interpreter.mp4
+30260,6,INTERPRETER,FAILED,403 Client Error: Forbidden for url: https://www.signingsavvy.com/signs/mp4/22/22786.mp4
+30261,7,INTERPRETER,ok,77 frames
+30262,8,INTERPRETER,FAILED,downloaded file is not a valid/decodable video (dead link or non-video response?)

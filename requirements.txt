@@ -1,0 +1,28 @@
+# SignBridge — sign recognition pipeline
+# Python 3.12 (mediapipe supports 3.9–3.12; 3.13+ will not work)
+#
+#   py -3.12 -m venv venv
+#   venv\Scripts\activate
+#   pip install -r requirements.txt
+#
+# Versions are pinned deliberately: the same code and the same random_state
+# gave different val accuracy on different scikit-learn versions (0.726 vs
+# 0.766 on identical features_v2.csv). Quote numbers only from a run on a
+# pinned environment.
+
+mediapipe==1.0.1
+opencv-python==5.0.0.93
+numpy==2.5.3
+pandas==3.0.6
+scikit-learn==1.9.1
+joblib==1.6.0
+requests==2.34.2
+
+# --- Optional -------------------------------------------------------------
+# Only needed for the GRU / ensemble experiments (train_pytorch.py,
+# ensemble_test.py). The RandomForest pipeline does not import torch.
+# torch==2.14.0
+#
+# Only needed to re-fetch WLASL clips from YouTube (download_wlasl_clips.py),
+# which shells out to `python -m yt_dlp`.
+# yt-dlp==2026.8.19
