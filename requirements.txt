@@ -20,7 +20,8 @@ requests==2.34.2
 
 # --- Optional -------------------------------------------------------------
 # Only needed for the GRU / ensemble experiments (train_pytorch.py,
-# ensemble_test.py). The RandomForest pipeline does not import torch.
+# train_pytorch_v3.py, ensemble_test.py). The RandomForest pipeline does
+# not import torch.
 # torch==2.14.0
 #
 # Only needed to re-fetch WLASL clips from YouTube (download_wlasl_clips.py),

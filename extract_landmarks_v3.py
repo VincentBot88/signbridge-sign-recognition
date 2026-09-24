@@ -282,6 +282,7 @@ def process_source(name, spec, hand_detector, pose_detector, limit=None, splits=
 
 
 def main():
+    global LANDMARKS_DIR
     ap = argparse.ArgumentParser()
     ap.add_argument("--source", choices=("citizen", "wlasl", "both"), default="both")
     ap.add_argument("--limit", type=int, default=None,
@@ -292,9 +293,20 @@ def main():
                          "the extraction time - and must not be looked at until the one "
                          "final evaluation, so there is no reason to extract it while "
                          "iterating. Default 'all'.")
+    ap.add_argument("--out-dir", default=None,
+                    help="write .npz files here instead of data/landmarks_v3. Use "
+                         "data/landmarks_v3_test for the test split, so it never "
+                         "sits beside the training data: "
+                         "--source citizen --splits test --out-dir data/landmarks_v3_test")
     args = ap.parse_args()
 
+    if args.out_dir:
+        LANDMARKS_DIR = os.path.abspath(args.out_dir)
+
     splits = None if args.splits == "all" else {s.strip() for s in args.splits.split(",")}
+    if splits and "test" in splits and not args.out_dir:
+        print("NOTE: extracting the test split into data/landmarks_v3 alongside the "
+              "training data. Prefer --out-dir data/landmarks_v3_test.")
 
     os.makedirs(LANDMARKS_DIR, exist_ok=True)
 

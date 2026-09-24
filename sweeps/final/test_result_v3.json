@@ -1,0 +1,358 @@
+{
+  "created": "2026-09-23T20:49:58",
+  "forced_rerun": false,
+  "bundle": "models\\signbridge_ensemble_v3.joblib",
+  "bundle_sha256": "9a2f20b203e25546413fd4649f1ce1fd35975abf80d663f7b9dadb4692eba20f",
+  "n_clips": 411,
+  "n_manifest": 416,
+  "n_unusable": 5,
+  "ensemble": {
+    "correct": 381,
+    "accuracy": 0.927007299270073,
+    "ci95": [
+      0.8977106031230089,
+      0.9483954768843963
+    ],
+    "accuracy_counting_unusable_as_wrong": 0.9158653846153846
+  },
+  "rf_alone": 0.8077858880778589,
+  "gru_x5_alone": 0.8832116788321168,
+  "abstention": {
+    "threshold": 0.39397435786886725,
+    "coverage": 0.9099756690997567,
+    "accepted_accuracy": 0.9625668449197861,
+    "accepted_wrong": 14,
+    "confirm": 37
+  },
+  "per_signer": [
+    {
+      "signer": "P9",
+      "n": 46,
+      "accuracy": 0.8478260869565217
+    },
+    {
+      "signer": "P49",
+      "n": 37,
+      "accuracy": 0.8648648648648649
+    },
+    {
+      "signer": "P22",
+      "n": 37,
+      "accuracy": 0.8918918918918919
+    },
+    {
+      "signer": "P35",
+      "n": 40,
+      "accuracy": 0.925
+    },
+    {
+      "signer": "P17",
+      "n": 34,
+      "accuracy": 0.9411764705882353
+    },
+    {
+      "signer": "P15",
+      "n": 35,
+      "accuracy": 0.9428571428571428
+    },
+    {
+      "signer": "P48",
+      "n": 35,
+      "accuracy": 0.9428571428571428
+    },
+    {
+      "signer": "P18",
+      "n": 39,
+      "accuracy": 0.9487179487179487
+    },
+    {
+      "signer": "P42",
+      "n": 35,
+      "accuracy": 0.9714285714285714
+    },
+    {
+      "signer": "P6",
+      "n": 35,
+      "accuracy": 0.9714285714285714
+    },
+    {
+      "signer": "P47",
+      "n": 38,
+      "accuracy": 0.9736842105263158
+    }
+  ],
+  "per_class": {
+    "BATHROOM": {
+      "n": 14,
+      "recall": 0.9285714285714286,
+      "predicted": 14
+    },
+    "BYE": {
+      "n": 12,
+      "recall": 1.0,
+      "predicted": 13
+    },
+    "DEAF": {
+      "n": 21,
+      "recall": 0.9047619047619048,
+      "predicted": 22
+    },
+    "DRINK": {
+      "n": 24,
+      "recall": 1.0,
+      "predicted": 25
+    },
+    "EAT": {
+      "n": 26,
+      "recall": 0.9615384615384616,
+      "predicted": 27
+    },
+    "HELLO": {
+      "n": 14,
+      "recall": 0.9285714285714286,
+      "predicted": 13
+    },
+    "HELP": {
+      "n": 13,
+      "recall": 0.8461538461538461,
+      "predicted": 12
+    },
+    "HOW": {
+      "n": 24,
+      "recall": 1.0,
+      "predicted": 25
+    },
+    "HUNGRY": {
+      "n": 12,
+      "recall": 0.6666666666666666,
+      "predicted": 8
+    },
+    "HURT_PAIN": {
+      "n": 26,
+      "recall": 1.0,
+      "predicted": 26
+    },
+    "INTERPRETER": {
+      "n": 11,
+      "recall": 1.0,
+      "predicted": 11
+    },
+    "MORE": {
+      "n": 12,
+      "recall": 1.0,
+      "predicted": 12
+    },
+    "NAME": {
+      "n": 14,
+      "recall": 0.9285714285714286,
+      "predicted": 15
+    },
+    "NO": {
+      "n": 11,
+      "recall": 0.9090909090909091,
+      "predicted": 10
+    },
+    "PLEASE": {
+      "n": 13,
+      "recall": 0.8461538461538461,
+      "predicted": 13
+    },
+    "SICK": {
+      "n": 13,
+      "recall": 1.0,
+      "predicted": 13
+    },
+    "SORRY": {
+      "n": 12,
+      "recall": 1.0,
+      "predicted": 14
+    },
+    "STOP": {
+      "n": 12,
+      "recall": 0.9166666666666666,
+      "predicted": 12
+    },
+    "THANKYOU": {
+      "n": 12,
+      "recall": 0.9166666666666666,
+      "predicted": 11
+    },
+    "UNDERSTAND": {
+      "n": 14,
+      "recall": 1.0,
+      "predicted": 14
+    },
+    "WAIT": {
+      "n": 13,
+      "recall": 0.7692307692307693,
+      "predicted": 11
+    },
+    "WATER": {
+      "n": 12,
+      "recall": 1.0,
+      "predicted": 14
+    },
+    "WHAT": {
+      "n": 25,
+      "recall": 0.88,
+      "predicted": 28
+    },
+    "WHERE": {
+      "n": 13,
+      "recall": 0.8461538461538461,
+      "predicted": 11
+    },
+    "WHO": {
+      "n": 14,
+      "recall": 0.7857142857142857,
+      "predicted": 12
+    },
+    "WHY": {
+      "n": 14,
+      "recall": 1.0,
+      "predicted": 15
+    },
+    "YES": {
+      "n": 10,
+      "recall": 0.8,
+      "predicted": 10
+    }
+  },
+  "confusions": [
+    {
+      "true": "WAIT",
+      "pred": "WHAT",
+      "count": 3
+    },
+    {
+      "true": "WHERE",
+      "pred": "DEAF",
+      "count": 2
+    },
+    {
+      "true": "BATHROOM",
+      "pred": "YES",
+      "count": 1
+    },
+    {
+      "true": "DEAF",
+      "pred": "DRINK",
+      "count": 1
+    },
+    {
+      "true": "DEAF",
+      "pred": "WATER",
+      "count": 1
+    },
+    {
+      "true": "EAT",
+      "pred": "STOP",
+      "count": 1
+    },
+    {
+      "true": "HELLO",
+      "pred": "WHY",
+      "count": 1
+    },
+    {
+      "true": "HELP",
+      "pred": "HOW",
+      "count": 1
+    },
+    {
+      "true": "HELP",
+      "pred": "WHAT",
+      "count": 1
+    },
+    {
+      "true": "HUNGRY",
+      "pred": "WHO",
+      "count": 1
+    },
+    {
+      "true": "HUNGRY",
+      "pred": "SORRY",
+      "count": 1
+    },
+    {
+      "true": "HUNGRY",
+      "pred": "PLEASE",
+      "count": 1
+    },
+    {
+      "true": "HUNGRY",
+      "pred": "WHAT",
+      "count": 1
+    },
+    {
+      "true": "NAME",
+      "pred": "WATER",
+      "count": 1
+    },
+    {
+      "true": "NO",
+      "pred": "YES",
+      "count": 1
+    },
+    {
+      "true": "PLEASE",
+      "pred": "NAME",
+      "count": 1
+    },
+    {
+      "true": "PLEASE",
+      "pred": "HELP",
+      "count": 1
+    },
+    {
+      "true": "STOP",
+      "pred": "WHAT",
+      "count": 1
+    },
+    {
+      "true": "THANKYOU",
+      "pred": "EAT",
+      "count": 1
+    },
+    {
+      "true": "WHAT",
+      "pred": "SORRY",
+      "count": 1
+    },
+    {
+      "true": "WHAT",
+      "pred": "EAT",
+      "count": 1
+    },
+    {
+      "true": "WHAT",
+      "pred": "WAIT",
+      "count": 1
+    },
+    {
+      "true": "WHO",
+      "pred": "PLEASE",
+      "count": 1
+    },
+    {
+      "true": "WHO",
+      "pred": "DEAF",
+      "count": 1
+    },
+    {
+      "true": "WHO",
+      "pred": "NAME",
+      "count": 1
+    },
+    {
+      "true": "YES",
+      "pred": "BATHROOM",
+      "count": 1
+    },
+    {
+      "true": "YES",
+      "pred": "BYE",
+      "count": 1
+    }
+  ]
+}

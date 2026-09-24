@@ -55,3 +55,14 @@ desktop.ini
 .vscode/
 .idea/
 *.swp
+
+# Serialized model bundles / checkpoints (rebuilt by build_ensemble_bundle.py
+# and train_pytorch_v3.py)
+*.joblib
+*.pt
+
+# Smoke-test outputs from quick sanity runs
+sweeps/**/_smoke*
+
+# Scratch drafts
+Claude outputs/

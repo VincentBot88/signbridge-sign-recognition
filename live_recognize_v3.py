@@ -42,13 +42,20 @@ WHAT'S DIFFERENT FROM THE v2 LIVE SCRIPT
    enough that the readout says BODY OK.
 
 Run:
-    python live_recognize_v3.py
+    python live_recognize_v3.py              # RandomForest only (known-good path)
+    python live_recognize_v3.py --ensemble   # frozen RF + 5-GRU ensemble
+                                             # (models/signbridge_ensemble_v3.joblib)
+
+With --ensemble, a sign below the dev-chosen confidence threshold is shown
+as "WORD?" in orange: the kiosk should ask the user to confirm it rather than
+act on it. The ensemble runs on numpy + scikit-learn only - no PyTorch.
 
 Controls:
     q     -> quit
     SPACE -> freeze/unfreeze the current prediction
 """
 
+import argparse
 import os
 import time
 from collections import deque
@@ -153,21 +160,36 @@ def local_normalized(raw_window):
 
 
 def main():
-    if not os.path.exists(MODEL_PATH):
-        print(f"ERROR: {MODEL_PATH} not found.")
-        print("Run:  python build_feature_vectors_v3.py  &&  "
-              "python train_classifier.py data\\features_v3.csv")
-        return
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--ensemble", action="store_true",
+                    help="use the frozen RF + 5-GRU ensemble instead of the RF alone")
+    args = ap.parse_args()
 
-    bundle = joblib.load(MODEL_PATH)
-    clf, feature_columns = bundle["model"], bundle["feature_columns"]
+    ens = clf = None
+    if args.ensemble:
+        from signbridge_ensemble import SignBridgeEnsemble
+        try:
+            ens = SignBridgeEnsemble.load()
+        except FileNotFoundError as e:
+            print(f"ERROR: {e}")
+            return
+        print(ens.describe())
+    else:
+        if not os.path.exists(MODEL_PATH):
+            print(f"ERROR: {MODEL_PATH} not found.")
+            print("Run:  python build_feature_vectors_v3.py  &&  "
+                  "python train_classifier.py data\\features_v3.csv")
+            return
 
-    expected = make_hand_local_names() + make_body_names()
-    if list(feature_columns) != expected:
-        print("WARNING: the model's feature columns don't match what this script builds.")
-        print(f"  model: {len(feature_columns)} columns, this script: {len(expected)}")
-        print("  Rebuild and retrain after any change to the feature settings.")
-        return
+        bundle = joblib.load(MODEL_PATH)
+        clf, feature_columns = bundle["model"], bundle["feature_columns"]
+
+        expected = make_hand_local_names() + make_body_names()
+        if list(feature_columns) != expected:
+            print("WARNING: the model's feature columns don't match what this script builds.")
+            print(f"  model: {len(feature_columns)} columns, this script: {len(expected)}")
+            print("  Rebuild and retrain after any change to the feature settings.")
+            return
 
     hand_detector = create_detector(running_mode=RunningMode.VIDEO, num_hands=2)
     pose_detector = create_pose_detector(running_mode=RunningMode.VIDEO)
@@ -282,6 +304,12 @@ def main():
                 display = {"text": "no hand", "conf": 0.0, "top3": [], "idle": True}
             elif motion < MOTION_GATE:
                 display = {"text": "IDLE (hand still)", "conf": 0.0, "top3": [], "idle": True}
+            elif ens is not None:
+                out = ens.predict(left_win, right_win, pose_win, frame_w, frame_h,
+                                  min_hand_frames=MIN_FRAMES_TO_PREDICT)
+                display = {"text": out["label"] if out["accepted"] else out["label"] + "?",
+                           "conf": out["confidence"], "top3": out["top"],
+                           "idle": False, "accepted": out["accepted"]}
             else:
                 feat = build_clip_features_v3(
                     left_win if has_left else None,
@@ -296,7 +324,12 @@ def main():
         # ---- overlay ----
         h, w, _ = frame.shape
         cv2.rectangle(frame, (0, 0), (w, 92), (0, 0, 0), -1)
-        colour = (140, 140, 140) if display["idle"] else (0, 230, 0)
+        if display["idle"]:
+            colour = (140, 140, 140)
+        elif display.get("accepted", True):
+            colour = (0, 230, 0)
+        else:
+            colour = (0, 165, 255)       # below threshold: ask the user to confirm
         cv2.putText(frame, display["text"], (14, 42), cv2.FONT_HERSHEY_SIMPLEX, 1.1, colour, 2)
         if not display["idle"]:
             cv2.putText(frame, f"confidence {display['conf']:.2f}", (14, 74),
