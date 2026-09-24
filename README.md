@@ -12,7 +12,35 @@ for the dedicated kiosk hardware.
 
 ---
 
-## Result
+## Status
+
+**The recognizer is frozen and has had its one final test evaluation.** The deployed model is
+an ensemble of a RandomForest on v3 features and five body-only GRUs, packaged as a single file
+that the kiosk loads with numpy + scikit-learn only (no PyTorch at run time).
+
+Held-out test split: 416 ASL Citizen clips from 11 signers who appear nowhere in training,
+dev or val. It was evaluated once, after every choice was fixed
+(`sweeps/final/test_result_v3.json`):
+
+| Model | Test accuracy |
+|---|---:|
+| **RF + 5-GRU ensemble** | **0.927** (381 / 411, 95% CI 0.898–0.948) |
+| Same, counting the 5 unusable clips as wrong | 0.916 |
+| 5-GRU average alone | 0.883 |
+| RandomForest alone | 0.808 |
+
+- **Abstention:** at the dev-chosen confidence threshold (0.394) the kiosk accepts 91% of signs,
+  and 96.3% of the accepted signs are correct. The other 9% trigger a "did you mean…?" prompt.
+- **Per signer:** accuracy ranges from 0.85 to 0.97 across the 11 test signers.
+- **Weakest classes:** HUNGRY (0.67), WAIT (0.77), WHO (0.79) and YES (0.80). The most common
+  confusion is WAIT → WHAT (3 clips).
+
+The sections below cover how the project got here. They are kept because each step changed the
+number.
+
+---
+
+## Result: feature representation (RandomForest)
 
 Three generations of the feature representation, same classifier, same signer-disjoint split:
 
@@ -55,11 +83,76 @@ HUNGRY regressed (1.00 → 0.50) — v3 did **not** fix the HUNGRY/THANKYOU conf
 - Every figure is a **single measurement on a 124-clip val split**. One standard error is about
   six clips. The v3 gain is twelve clips, roughly two standard errors — the first change in this
   project to clear the noise band by a comfortable margin, but not proof.
-- Next step is grouped cross-validation across signers over train+val, for a mean and spread
-  instead of one fragile number.
-- **The test split has never been touched** and should stay that way until tuning is finished.
 - scikit-learn version changes the number (0.726 vs 0.766 on identical inputs and seed), hence the
   pins in `requirements.txt`. Quote figures from the project machine only.
+
+---
+
+## Result: sequence model and ensemble
+
+### GRU on v3 landmarks (`train_pytorch_v3.py`)
+
+On v2 data the GRU trailed the RandomForest by about 10 points (0.69 vs 0.78). The v3 GRU reads
+per-frame landmarks on one shared clock for both hands and pose. Short detector dropouts are
+interpolated instead of being dropped. The GRU trains with a fixed evaluation protocol:
+
+- A **signer-disjoint dev slice** (250 rows, 8 signers) is carved out of train. It drives early
+  stopping, and val is only reported. Selecting on val had inflated earlier GRU numbers by about
+  5 points.
+- **5 seeds per configuration**, reported as mean ± spread.
+- **Two independent augmentation streams.** A result has to hold on both streams to count.
+  Several earlier claims were stable across seeds but disappeared on a second stream.
+
+On-the-fly augmentation (`augment_v3.py`) was the largest single lever. It applies non-uniform
+time warp, temporal crop, small rotation, landmark jitter and frame dropout. Translation, uniform
+scale and uniform speed changes are left out because the feature pipeline already cancels them.
+Results for the body-only GRU, val@best-dev, 5 seeds × 2 streams, patience 200:
+
+| Aug strength | Stream 0 | Stream 1 |
+|---:|---:|---:|
+| none | 0.706 | 0.706 |
+| 1 | 0.787 | 0.790 |
+| 2 | 0.839 | 0.840 |
+| **3** | **0.890** | **0.885** |
+| 4 | 0.863 | 0.881 |
+
+Strength 3 was chosen, which puts the GRU level with the RF on val (≈110 / 124 each).
+
+### Ensemble (`ensemble_v3.py`)
+
+The v2 ensemble lost to the RF alone because the GRU was weaker and overconfident. In v3 both
+models are equally accurate and read different inputs. The RF uses engineered hand-local and body
+features; the GRU uses the raw body-frame trajectory. Both train on the same 1,000-row fit set.
+Each model's probabilities are temperature-calibrated on dev, then averaged with equal weight.
+The decision rule was fixed before any result was seen.
+
+| Val (124 clips, mean of 5 pairs) | Stream 0 | Stream 1 |
+|---|---:|---:|
+| RandomForest | 110.2 | 110.4 |
+| GRU | 110.4 | 109.8 |
+| **Calibrated average** | **115.0** | **114.0** |
+| Raw (uncalibrated) average | 112.6 | 111.6 |
+
+Verdict: **supported**. The ensemble beats both single models on both streams (paired t-test),
+and dev agrees. Calibration is worth about 2.5 clips on its own.
+
+### Freezing and deployment
+
+`build_ensemble_bundle.py` freezes the RF (seed 42), the five stream-0 GRU seeds, the
+temperatures and the abstention threshold into `models/signbridge_ensemble_v3.joblib`. It
+refuses to save unless all of these checks pass:
+
+- The rows match the ensemble experiment's rows.
+- The kiosk's feature path is identical to the training path.
+- The numpy GRU forward pass matches PyTorch on every dev and val clip.
+- Each seed reproduces its recorded score.
+
+`signbridge_ensemble.py` loads that bundle and exposes a single `predict()`. The kiosk therefore
+needs no PyTorch, which matters on the Raspberry Pi 5. It also keeps Windows Smart App Control,
+which has blocked torch's DLLs on the demo laptop before, out of the demo path.
+
+`evaluate_ensemble_on_test.py` ran the one test evaluation shown under **Status**. It records the
+result and the bundle's SHA-256, and it refuses to run a second time without `--force`.
 
 ---
 
@@ -91,7 +184,8 @@ the provided split is already a genuine cross-user evaluation and satisfies the 
 
 The three generations share modules and live side by side rather than in separate folders — v3
 imports directly from v2, and `train_classifier.py` / `evaluate_on_test.py` are shared by all
-three. Use the `v1` / `v2` / `v3` git tags to check out a given stage.
+three. The `v3` git tag marks the RandomForest-only v3 state (val 0.895), before the sequence
+model and ensemble work.
 
 **Shared**
 
@@ -134,7 +228,21 @@ three. Use the `v1` / `v2` / `v3` git tags to check out a given stage.
 | `build_feature_vectors_v3.py` | Body-relative features; `--no-body` / `--no-hand-local` drive the ablation |
 | `mirror_augment_v3.py` | Mirroring, handedness-aware |
 | `test_body_features_v3.py` | Synthetic unit tests — no data or model download needed |
-| `live_recognize_v3.py` | Webcam inference against the v3 model |
+| `live_recognize_v3.py` | Webcam inference: v3 RF by default, the frozen ensemble with `--ensemble` |
+
+**v3 — sequence model and ensemble**
+
+| File | Role |
+|---|---|
+| `train_pytorch_v3.py` | GRU / MLP on per-frame v3 landmarks; dev-based early stopping, multi-seed, `--augment`, `--save-probs` / `--save-seeds` |
+| `augment_v3.py` | On-the-fly augmentation (time warp, crop, rotation, jitter, dropout); runs a self-test when executed directly |
+| `sweep_aug_v3.py` | Resumable augmentation-strength × stream sweep, with a collated significance table |
+| `verify_speedup_v3.py` | Checks that the parallel augmentation rebuild is bit-identical to the serial one |
+| `ensemble_v3.py` | RF + GRU ensemble experiment with a pre-registered decision rule |
+| `build_ensemble_bundle.py` | Freezes the ensemble into `models/signbridge_ensemble_v3.joblib` after parity checks |
+| `signbridge_ensemble.py` | The runtime recognizer: loads the bundle, numpy-only GRU, `predict()` → label, confidence, accept/confirm |
+| `evaluate_ensemble_on_test.py` | The single final test evaluation → `sweeps/final/test_result_v3.json` |
+| `sweeps/` | Result JSONs from the augmentation sweep, the ensemble experiment and the final test |
 
 ---
 
@@ -150,6 +258,10 @@ Python **3.12** specifically — mediapipe supports 3.9–3.12 and will not inst
 
 The two MediaPipe detector models (`hand_landmarker.task`, `pose_landmarker.task`) download
 themselves on first run, so there is nothing else to fetch.
+
+PyTorch is only needed to *train* the GRUs (`train_pytorch_v3.py`, `build_ensemble_bundle.py`).
+Uncomment the `torch` line in `requirements.txt`, or run `pip install torch`. Running the frozen
+ensemble does not need it.
 
 One API gotcha worth knowing: current mediapipe releases have removed the legacy
 `mp.solutions.hands` API entirely — `mp.solutions` raises `AttributeError` even on older 0.10.x
@@ -182,10 +294,28 @@ python train_classifier.py data\features_v3.csv
 python train_classifier.py data\features_v3_bodyonly.csv
 ```
 
+Train the GRUs and freeze the ensemble (about 40 min of GRU training, then about 1 min):
+
+```powershell
+python train_pytorch_v3.py --no-hand-local --augment --aug-strength 3 `
+    --aug-stream 0 --seeds 5 --patience 200 --epochs 2000 --torch-threads 1 `
+    --no-save --save-seeds models/gru_v3_s3_seeds.pt
+python build_ensemble_bundle.py --gru-seeds models/gru_v3_s3_seeds.pt
+```
+
+The final test evaluation has already been run. It refuses to run again while
+`sweeps/final/test_result_v3.json` exists:
+
+```powershell
+python extract_landmarks_v3.py --source citizen --splits test --out-dir data/landmarks_v3_test
+python evaluate_ensemble_on_test.py
+```
+
 Live demo:
 
 ```powershell
-python live_recognize_v3.py
+python live_recognize_v3.py              # RandomForest only
+python live_recognize_v3.py --ensemble   # frozen ensemble; low-confidence signs show as "WORD?"
 ```
 
 ---
@@ -199,6 +329,8 @@ Excluded by `.gitignore`, with how to get each back:
 | `venv/` | — | `pip install -r requirements.txt` |
 | `*.task` detector models | ~13 MB | Auto-downloaded on first run |
 | `models/*.joblib` | ~197 MB | `train_classifier.py <feature csv>` |
+| `models/signbridge_ensemble_v3.joblib`, `*.pt` GRU seeds | — | `train_pytorch_v3.py --save-seeds …` then `build_ensemble_bundle.py` |
+| `sweeps/ensemble/*.npz` (saved GRU probabilities) | — | `train_pytorch_v3.py --save-probs …` |
 | `data/features*.csv` | ~148 MB | `build_feature_vectors*.py` |
 | `data/landmarks*/` | — | `extract_clip_landmarks.py` / `extract_landmarks_v3.py` |
 | `data/clips/`, `data/wlasl_clips/` | — | `select_vocabulary_clips.py` from the ASL Citizen zip; `download_wlasl_clips.py` for WLASL |
@@ -224,14 +356,18 @@ subset under real webcam and lighting conditions.
 
 ## Known gaps
 
-- Grouped cross-validation across signers has not been run — all figures are single-split.
-- HUNGRY ↔ THANKYOU confusion is unresolved; both begin near the chin. A data/feature problem, not
-  a duplicate-label one.
-- `N_KEYFRAMES` is still a hardcoded 10. At ~70 frames per clip that samples every ~7 frames and
-  may alias fast oscillation; 16 and 20 are untested and cheap to try.
-- Keyframe resampling normalizes clip duration, which makes the time-stretch half of
-  `augment_landmarks.py` a no-op from v2 onward. If augmentation is revisited it needs different
-  transformations — small rotations, per-landmark dropout.
-- The full demo path needs a cold end-to-end test before presentation day.
+- The test figure comes from ASL Citizen clips: studio-like, one signer per clip, cleanly
+  segmented. Live webcam use, with continuous signing, different lighting and no clip boundaries,
+  has not been measured and will be lower. The re-recorded subset described above is what would
+  measure it.
+- HUNGRY is still the weakest class (0.67 on test). On val its errors went to THANKYOU, since
+  both begin near the chin; on test they are scattered.
+- WAIT → WHAT is the most common test confusion.
+- Temperatures, GRU checkpoints and the abstention threshold were all fit on the same dev slice,
+  so the threshold is slightly permissive. The test abstention result (96.3% accuracy on accepted
+  signs, against a 95% target) suggests this does not matter in practice.
+- `N_KEYFRAMES` (RF features) is still a hardcoded 10; 16 and 20 are untested.
+- The full kiosk demo path, with `live_recognize_v3.py --ensemble` on the Raspberry Pi 5, still
+  needs a cold end-to-end test before presentation day.
 - EMERGENCY is missing from ASL Citizen and is a real gap for a communication kiosk; it would need
   to come from WLASL or a self-recorded clip.
