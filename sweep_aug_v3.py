@@ -90,6 +90,7 @@ def trainer_cmd(args, strength, stream, out_path, baseline=False):
         cmd += ["--workers", str(args.workers)]
     if args.torch_threads:
         cmd += ["--torch-threads", str(args.torch_threads)]
+    cmd += ["--device", args.device]
     return cmd
 
 
@@ -428,6 +429,8 @@ def main():
                     help="passed through to the trainer (0 = its default)")
     ap.add_argument("--torch-threads", type=int, default=0,
                     help="passed through to the trainer; --probe-threads suggests one")
+    ap.add_argument("--device", choices=["cpu", "cuda", "auto"], default="cpu",
+                    help="passed through to the trainer")
     ap.add_argument("--minutes-per-run", type=float, default=16.0,
                     help="only used for the time estimate")
     ap.add_argument("--no-baseline", action="store_true",

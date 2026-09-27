@@ -190,6 +190,31 @@ numbers recorded before 2026-09-21 will not reproduce exactly on the new path.
 --legacy-aug-rng restores the old stream (single process, necessarily) for
 reproducing them. Runs without --augment are bit-identical either way.
 
+GPU TRAINING, --device
+----------------------
+--device cuda trains on an NVIDIA GPU (auto = cuda when one is available;
+cpu stays the default). The model and the fit/dev/val tensors live on the
+GPU; the augmented rebuild still runs on the CPU worker pool and is copied
+over once per epoch. Model init and the batch order are drawn on the CPU
+generator, so a cuda run starts from the same weights and sees the same
+batches as a cpu run with the same seed - but GPU arithmetic and the GPU
+dropout rng differ, so its numbers are close to, not equal to, the cpu ones.
+Repeat cuda runs on the same machine do reproduce each other.
+
+The pool rebuild is also prefetched: epoch N+1 is queued before epoch N
+trains, so the rebuild overlaps the gradient step instead of following it.
+Output is unchanged (an epoch's augmentation never depends on the model), and
+it speeds up the cpu path too.
+
+Measured on a GTX 1660 SUPER + i5-10600K, body-only GRU, --augment
+--aug-strength 3 --torch-threads 1, 2 seeds x 80 epochs:
+
+    cpu, before prefetch   114.6s
+    cpu                     84.0s   (results bit-identical to the line above)
+    cuda                    55.1s
+
+At that point the rebuild, not the GPU, is the epoch.
+
 INPUT
 -----
 Reads data/landmarks_v3/*.npz - raw, frame-aligned hands + pose (see
@@ -610,15 +635,34 @@ def build_X_parallel(pool, rows, n_steps, with_hand_local, with_body,
     because both key each clip's rng on its row index alone. Rows come back in
     the order given regardless of which worker finished first.
     """
+    return collect_X_parallel(submit_X_parallel(
+        pool, rows, n_steps, with_hand_local, with_body,
+        stream, seed, epoch, strength, n_chunks))
+
+
+def submit_X_parallel(pool, rows, n_steps, with_hand_local, with_body,
+                      stream, seed, epoch, strength, n_chunks):
+    """
+    Non-blocking half of build_X_parallel: queue the rebuild on the pool and
+    return a handle for collect_X_parallel. train_one_seed uses it to build
+    epoch N+1 while epoch N trains. That is safe because an epoch's
+    augmentation depends only on (stream, seed, epoch, row), never on the
+    model, so building it early changes nothing but when it is ready.
+    """
     rows = list(rows)
     n_chunks = max(1, min(n_chunks, len(rows)))
     bounds = np.linspace(0, len(rows), n_chunks + 1).astype(int)
     tasks = [(rows[a:b], n_steps, with_hand_local, with_body,
               stream, seed, epoch, strength)
              for a, b in zip(bounds[:-1], bounds[1:]) if b > a]
+    return rows, pool.map_async(_build_chunk, tasks)
 
+
+def collect_X_parallel(pending):
+    """Blocking half of build_X_parallel: wait for a submitted rebuild."""
+    rows, result = pending
     by_row = {}
-    for chunk in pool.imap_unordered(_build_chunk, tasks):
+    for chunk in result.get():
         for r, seq, body_present in chunk:
             by_row[r] = (seq, body_present)
 
@@ -771,18 +815,21 @@ def train_one_seed(tensors, classes, args, seed, per_frame, torch, nn, verbose,
     predictions.
     """
     Xfit, yfit, Xdev, ydev, Xval, yval = tensors
+    device = Xfit.device
 
     torch.manual_seed(seed)
     np.random.seed(seed)
 
     # class_weight='balanced', computed on the FIT set only - dev is held out
     # and must not influence the loss.
-    counts = np.bincount(yfit.numpy(), minlength=len(classes)).astype(np.float32)
+    counts = np.bincount(yfit.cpu().numpy(), minlength=len(classes)).astype(np.float32)
     weights = torch.tensor(len(yfit) / (len(classes) * np.maximum(counts, 1)))
 
+    # Built on the CPU and then moved, so the initial weights are the same
+    # draw on either device.
     model = build_model(args.model, args.timesteps, len(classes),
-                        args.hidden, args.dropout, torch, nn, per_frame)
-    loss_fn = nn.CrossEntropyLoss(weight=weights)
+                        args.hidden, args.dropout, torch, nn, per_frame).to(device)
+    loss_fn = nn.CrossEntropyLoss(weight=weights.to(device))
     opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=1e-4)
 
     best_dev, best_state, since_best = -1.0, None, 0
@@ -793,17 +840,26 @@ def train_one_seed(tensors, classes, args, seed, per_frame, torch, nn, verbose,
     t_start = time.time()
     last_beat = t_start
 
+    def submit(epoch):
+        return submit_X_parallel(
+            aug["pool"], aug["rows"], args.timesteps,
+            aug["with_hand_local"], aug["with_body"],
+            aug["stream"], seed, epoch, aug["strength"], aug["n_chunks"])
+
+    pending = None      # the next epoch's pool rebuild, already queued
+
     for epoch in range(1, args.epochs + 1):
         epochs_run = epoch
 
         if aug is None:
             Xep = Xfit
         elif aug["pool"] is not None:
-            Xaug, _ = build_X_parallel(
-                aug["pool"], aug["rows"], args.timesteps,
-                aug["with_hand_local"], aug["with_body"],
-                aug["stream"], seed, epoch, aug["strength"], aug["n_chunks"])
-            Xep = torch.tensor(Xaug)
+            Xaug, _ = collect_X_parallel(pending or submit(epoch))
+            # Queue epoch+1 before training this one, so the workers rebuild
+            # while the gradient step runs instead of after it. If early
+            # stopping ends the seed first, the prefetched epoch is discarded.
+            pending = submit(epoch + 1) if epoch < args.epochs else None
+            Xep = torch.tensor(Xaug).to(device)
         elif aug["legacy_rng"]:
             # One rng consumed across the clip list in order - the stream every
             # --augment number recorded before 2026-09-21 was produced on.
@@ -811,7 +867,7 @@ def train_one_seed(tensors, classes, args, seed, per_frame, torch, nn, verbose,
                               aug["with_hand_local"], aug["with_body"],
                               aug_rng=np.random.default_rng([seed, epoch]),
                               strength=aug["strength"])
-            Xep = torch.tensor(Xaug)
+            Xep = torch.tensor(Xaug).to(device)
         else:
             # Per-clip rng keyed on the row index: same output the pool
             # produces, just built in this process.
@@ -819,10 +875,12 @@ def train_one_seed(tensors, classes, args, seed, per_frame, torch, nn, verbose,
                               aug["with_hand_local"], aug["with_body"],
                               aug_key=(aug["stream"], seed, epoch),
                               clip_ids=aug["rows"], strength=aug["strength"])
-            Xep = torch.tensor(Xaug)
+            Xep = torch.tensor(Xaug).to(device)
 
         model.train()
-        perm = torch.randperm(len(Xep))
+        # Drawn on the CPU generator on either device, so the batch order
+        # matches a cpu run with the same seed.
+        perm = torch.randperm(len(Xep)).to(device)
         for i in range(0, len(Xep), args.batch):
             b = perm[i:i + args.batch]
             opt.zero_grad()
@@ -874,13 +932,13 @@ def train_one_seed(tensors, classes, args, seed, per_frame, torch, nn, verbose,
     with torch.no_grad():
         fit_acc = (model(Xfit).argmax(1) == yfit).float().mean().item()
         val_logits = model(Xval)
-        val_pred = val_logits.argmax(1).numpy()
+        val_pred = val_logits.argmax(1).cpu().numpy()
         # Softmax at the selected (best-dev) checkpoint, for --save-probs /
         # ensemble_v3.py. Computed after training has finished and in eval
         # mode, so it draws no randomness and cannot change any number above:
         # argmax(val_prob) is exactly the prediction val@best-dev was read from.
-        val_prob = torch.softmax(val_logits, dim=1).numpy()
-        dev_prob = torch.softmax(model(Xdev), dim=1).numpy()
+        val_prob = torch.softmax(val_logits, dim=1).cpu().numpy()
+        dev_prob = torch.softmax(model(Xdev), dim=1).cpu().numpy()
 
     return {
         "seed": seed,
@@ -889,7 +947,9 @@ def train_one_seed(tensors, classes, args, seed, per_frame, torch, nn, verbose,
         "val_at_best_dev": val_at_best_dev,
         "val_at_best_val": best_val_any_epoch,
         "epochs": epochs_run,
-        "state": best_state,
+        # Always handed back on the CPU, so every checkpoint written from it
+        # loads on a machine with no GPU (the kiosk, build_ensemble_bundle.py).
+        "state": {k: v.cpu() for k, v in best_state.items()},
         "val_pred": val_pred,
         "val_prob": val_prob,
         "dev_prob": dev_prob,
@@ -1032,6 +1092,13 @@ def main():
                          "109 features through a 64-unit GRU) thread "
                          "synchronisation can cost more than it saves, so a small "
                          "number is worth measuring.")
+    ap.add_argument("--device", choices=["cpu", "cuda", "auto"], default="cpu",
+                    help="where the model trains. cpu (default) is the path every "
+                         "recorded number came from. cuda moves the model and the "
+                         "fit/dev/val tensors to the GPU; the augmented rebuild "
+                         "still runs on the CPU workers. auto = cuda if available. "
+                         "GPU arithmetic differs from CPU in the last bits, so a "
+                         "cuda seed does not reproduce its cpu score exactly.")
     ap.add_argument("--workers", type=int, default=0,
                     help="processes used to rebuild the augmented fit set each "
                          "epoch. 0 = os.cpu_count() - 1, 1 = no pool (build in "
@@ -1071,6 +1138,13 @@ def main():
     if args.torch_threads > 0:
         torch.set_num_threads(args.torch_threads)
 
+    if args.device == "auto":
+        args.device = "cuda" if torch.cuda.is_available() else "cpu"
+    if args.device == "cuda" and not torch.cuda.is_available():
+        raise SystemExit("ERROR: --device cuda but torch.cuda.is_available() is False. "
+                         "Install a CUDA build of torch (see README) or use --device cpu.")
+    device = torch.device(args.device)
+
     from sklearn.metrics import classification_report
 
     print(f"Loading v3 landmarks from {LANDMARKS_DIR} ...")
@@ -1095,9 +1169,10 @@ def main():
         print("  WARNING: dev covers few classes - try a different --holdout-seed")
     print("val is NOT used for selection; test was never loaded.")
 
-    tensors = (torch.tensor(X[fit_mask]), torch.tensor(y[fit_mask]),
-               torch.tensor(X[dev_mask]), torch.tensor(y[dev_mask]),
-               torch.tensor(X[val_mask]), torch.tensor(y[val_mask]))
+    # Moved to the device once, here. Only the augmented fit tensor is rebuilt
+    # (on the CPU) and copied over each epoch.
+    tensors = tuple(torch.tensor(a).to(device) for a in (
+        X[fit_mask], y[fit_mask], X[dev_mask], y[dev_mask], X[val_mask], y[val_mask]))
 
     aug = None
     if args.augment and args.aug_strength > 0:
@@ -1120,6 +1195,8 @@ def main():
     print(f"augmentation: {'ON (strength %.2f, stream %d, fit set only)' % (args.aug_strength, args.aug_stream) if aug else 'off'}")
     if args.torch_threads > 0:
         print(f"torch threads: {args.torch_threads}")
+    print(f"device: {device}"
+          + (f" ({torch.cuda.get_device_name(device)})" if device.type == "cuda" else ""))
 
     # The pool only ever rebuilds the augmented fit set, so it is created once
     # here and reused by every epoch of every seed - never per epoch, which on
@@ -1225,7 +1302,7 @@ def main():
                 "aug_stream": args.aug_stream,
                 "legacy_aug_rng": bool(args.legacy_aug_rng),
                 "workers": n_workers, "torch_threads": args.torch_threads,
-                "per_frame": per_frame,
+                "device": args.device, "per_frame": per_frame,
             },
             "split": {
                 "fit_rows": int(fit_mask.sum()), "dev_rows": int(dev_mask.sum()),
@@ -1272,7 +1349,7 @@ def main():
             "with_hand_local": with_hand_local, "with_body": with_body,
             "augment": bool(aug), "aug_strength": args.aug_strength,
             "aug_stream": args.aug_stream,
-            "legacy_aug_rng": args.legacy_aug_rng,
+            "legacy_aug_rng": args.legacy_aug_rng, "device": args.device,
         }
         os.makedirs(os.path.dirname(os.path.abspath(args.save_probs)) or ".",
                     exist_ok=True)
@@ -1306,6 +1383,7 @@ def main():
             "augment": bool(aug), "aug_strength": args.aug_strength,
             "aug_stream": args.aug_stream,
             "legacy_aug_rng": args.legacy_aug_rng, "per_frame": per_frame,
+            "device": args.device,
         }
         os.makedirs(os.path.dirname(os.path.abspath(args.save_seeds)) or ".",
                     exist_ok=True)

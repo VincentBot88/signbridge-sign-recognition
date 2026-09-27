@@ -24,6 +24,10 @@ requests==2.34.2
 # not import torch.
 # torch==2.14.0
 #
+# For GPU training (train_pytorch_v3.py --device cuda) install the CUDA build
+# instead. cu126 works with NVIDIA driver 560+:
+#   pip install torch==2.14.0 --index-url https://download.pytorch.org/whl/cu126
+#
 # Only needed to re-fetch WLASL clips from YouTube (download_wlasl_clips.py),
 # which shells out to `python -m yt_dlp`.
 # yt-dlp==2026.8.19
