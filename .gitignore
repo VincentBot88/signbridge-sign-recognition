@@ -66,3 +66,6 @@ sweeps/**/_smoke*
 
 # Scratch drafts
 Claude outputs/
+
+# Training logs (results are in the JSON next to them)
+sweeps/**/*.log

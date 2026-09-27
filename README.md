@@ -303,6 +303,39 @@ python train_pytorch_v3.py --no-hand-local --augment --aug-strength 3 `
 python build_ensemble_bundle.py --gru-seeds models/gru_v3_s3_seeds.pt
 ```
 
+### Training on an NVIDIA GPU (`cuda` branch)
+
+`train_pytorch_v3.py --device cuda` trains the GRU on the GPU (`auto` picks it when one is
+present, `cpu` stays the default). Install the CUDA build of torch first:
+
+```powershell
+pip install torch==2.14.0 --index-url https://download.pytorch.org/whl/cu126
+```
+
+The same branch prefetches the augmented rebuild: epoch N+1 is built by the worker pool while
+epoch N trains. That changes no output (CPU results are bit-identical with and without it) and
+speeds up the CPU path as well.
+
+The GRU command above, 5 seeds, on a GTX 1660 SUPER + i5-10600K
+(`sweeps/cuda/`):
+
+| Run | Val@best-dev | Correct / 124 per seed | Wall clock |
+|---|---:|---|---:|
+| CPU, project laptop (recorded) | 0.890 ± 0.010 | 111, 109, 112, 109, 111 | 43.4 min |
+| CPU, this machine | 0.890 ± 0.010 | 111, 109, 112, 109, 111 | 36.9 min |
+| CUDA, this machine | 0.850 ± 0.035 | 108, 108, 98, 103, 110 | 18.9 min |
+
+- **Speed:** 2.3× the laptop, 2.0× this machine's CPU. The GPU sits near 5% utilisation; the
+  CPU augmentation rebuild is now the whole epoch, so a faster GPU would not help.
+- **Accuracy is not the same.** The CPU run reproduces across machines exactly, so the gap is
+  the GPU: cuDNN's GRU arithmetic and the CUDA dropout rng send training down a different path,
+  and on this config that path early-stopped sooner and scored ~5 clips lower with 3× the seed
+  spread. Five seeds on one stream is not enough to say CUDA is *worse*, only that it is *not
+  interchangeable*. Repeat CUDA runs on the same machine do reproduce each other.
+- **Use it for:** fast exploration and sweeps. Anything quoted or frozen into the ensemble
+  bundle should still come from `--device cpu`, which is what every number in this README,
+  and every seed `build_ensemble_bundle.py` checks, was measured on.
+
 The final test evaluation has already been run. It refuses to run again while
 `sweeps/final/test_result_v3.json` exists:
 
