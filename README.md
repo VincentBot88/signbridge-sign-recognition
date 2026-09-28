@@ -332,6 +332,23 @@ The GRU command above, 5 seeds, on a GTX 1660 SUPER + i5-10600K
   and on this config that path early-stopped sooner and scored ~5 clips lower with 3× the seed
   spread. Five seeds on one stream is not enough to say CUDA is *worse*, only that it is *not
   interchangeable*. Repeat CUDA runs on the same machine do reproduce each other.
+- **Tuning on the GPU** (`sweeps/cuda/opt/`, 5 seeds × 2 streams, val@best-dev single-seed
+  mean; the CPU reference is 0.890 / 0.885):
+
+  | Config | Stream 0 | Stream 1 | Verdict |
+  |---|---:|---:|---|
+  | Baseline (hidden 64, 32 steps, patience 200) | 0.850 | 0.865 | — |
+  | Patience 400 | 0.877 | 0.882 | Holds on both streams |
+  | Hidden 128 | 0.890 | 0.866 | Stream 0 only, dev disagrees |
+  | 48 timesteps | 0.894 | 0.847 | Stream 0 only |
+  | Learning rate 5e-4 | 0.844 | — | Worse, not confirmed |
+  | **48 timesteps + patience 400** (epochs 3000) | **0.895** | **0.887** | Holds; matches CPU |
+
+  The GPU gap was mostly early stopping picking worse checkpoints: the lowest GPU seeds were
+  the ones that stopped early, and longer patience recovered them. The best GPU config matches
+  the CPU baseline on both streams but does not beat it, and at ~42 min it is no faster.
+  Longer patience also inflates dev (it is a max over more epochs), so dev gains from it are
+  partly selection, not generalisation.
 - **Use it for:** fast exploration and sweeps. Anything quoted or frozen into the ensemble
   bundle should still come from `--device cpu`, which is what every number in this README,
   and every seed `build_ensemble_bundle.py` checks, was measured on.
